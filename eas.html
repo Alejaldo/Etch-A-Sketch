@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-eqiuv="X-UA-Compatible" content="IE=edge">
+    <title>Etch-a-Sketch project</title>
+    <meta name="description" content="Practacing DOM manipulation with JavaScript">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body>
+    <style>
+        body {background: coral; padding: 50px; height: 100%; text-align: center;}
+
+        #container {
+            background: blue;
+            display: grid;
+            width: 100vw;
+            height: auto;
+            max-width: 1000px;
+            max-height: max-content;
+            margin: 0 auto;
+        }
+
+        .box {
+            width: 100%;
+            padding-top: 100%;
+            transition: all 0.3s linear;
+            grid-column: auto;
+        }
+
+        button {
+            cursor: pointer;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 20px;
+            color: red;
+            padding: 20px;
+            margin: 30px auto;
+            transition: all 0.3s linear;
+            font-size: 30px;
+        }
+
+        *:focus {outline: none;}
+        button:hover {
+            background: yellow;
+            color: rgb(93, 211, 58);
+            font-weight: bold;
+            border-color: rgb(228, 51, 51);
+        }
+    </style>
+
+    <button>Reload the Grid</button>
+    <div id="container"></div>
+
+    <script>
+        let resetButton = document.querySelector('button');
+        let container = document.getElementById('container');
+        let box = '<div class="box"></div>';
+
+        function createGrid($gridSize) {
+            if ($gridSize > 64) {
+                $gridSize = 64;
+                    container.setAttribute("style", "grid-template-columns: repeat("+$gridSize+","+100/$gridSize+"%); grid-template-rows: repeat("+$gridSize+","+100/$gridSize+"%);");
+                        for (let a = 0; a < $gridSize * $gridSize; a++) {
+                            container.innerHTML += box;
+                        }
+            } else {
+                container.setAttribute("style", "grid-template-columns: repeat("+$gridSize+", "+100/$gridSize+"%); grid-template-rows: repeat("+$gridSize+", "+100/$gridSize+"%);");
+                    for (let b = 0; b < $gridSize * $gridSize; b++) {
+                        container.innerHTML += box;
+                    }
+            }
+        }
+
+        function setBoxHeight() {
+            let box = document.querySelector('.box');
+            let boxWidth = box.clientWidth;
+            const x = document.getElementById("container");
+            const y = x.getElementByTagName("div");
+            for (let c = 0; c < y.length; c++) {
+                y[c].style.height = boxWidth+"px";
+            }
+        }
+
+        function clearGrid() {
+            let child = container.lastElementChild;
+            while(child) {
+                container.removeChild(child);
+                child = container.lastElementChild;
+            }
+            
+            let newGrid = prompt('Put your preferable digit of the box size (8 is 8x8, etc.):');
+
+            createGrid (parseInt(newGrid));
+
+            let pixels = document.querySelectorAll('.box');
+
+            pixels.forEach(item => {
+                item.addEventListener('mouseover', event => {
+                    console.log("oba-oba");
+                    item.style.cssText = "background: rgb("+randomRGB()+", "+randomRGB()+", "+randomRGB()+")";
+                })
+            })
+        }
+
+        function randomRGB() {
+            return Math.floor(Math.random()*Math.floor(255));
+        }
+
+        //default box
+        createGrid(16);
+
+        let pixels = document.querySelectorAll('.box');
+
+        pixels.forEach(item => {
+                item.addEventListener('mouseover', event => {
+                    console.log("oba-oba");
+                    item.style.cssText = "background: rgb("+randomRGB()+", "+randomRGB()+", "+randomRGB()+")";
+                })
+            })
+        
+        resetButton.addEventListener('click', function() {
+            clearGrid();
+        })
+    </script>
+</body>
