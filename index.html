@@ -74,16 +74,6 @@
             }
         }
 
-        function setBoxHeight() {
-            let box = document.querySelector('.box');
-            let boxWidth = box.clientWidth;
-            const x = document.getElementById("container");
-            const y = x.getElementByTagName("div");
-            for (let c = 0; c < y.length; c++) {
-                y[c].style.height = boxWidth+"px";
-            }
-        }
-
         function clearGrid() {
             let child = container.lastElementChild;
             while(child) {
